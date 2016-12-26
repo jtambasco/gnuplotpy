@@ -47,7 +47,7 @@ Python Script:
 	data = [x, y]
 	gp.gnuplot('test.gpi', args, data)
 	
-![Example 1](/home/jl/Desktop/example1.png) 
+![Example 1](./examples/example1.png) 
 
 ## Contributions
 If you add functionality, I'd probably be interested in this and would
