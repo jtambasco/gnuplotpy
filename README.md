@@ -50,5 +50,5 @@ Python Script:
 ![Example 1](./examples/example1.png) 
 
 ## Contributions
-If you add functionality, I'd probably be interested in this and would
+If you add functionality, I'd be interested and would
 appreciate if you send me a pull request.
