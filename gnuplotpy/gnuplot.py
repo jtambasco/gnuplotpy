@@ -1,37 +1,47 @@
 import os
+import shutil as sh
 import numpy as np
 
-class _GnuplotScriptTemp:
-    def __init__(self, gnuplot_cmds):
-        self.name = '.tmp_gnuplot.gpi'
-        with open(self.name, 'w') as fs:
-            fs.write(gnuplot_cmds)
+def _read_line(filename, line_number):
+    s = None
+    with open(filename, 'r') as fs:
+        for i, line in enumerate(fs.readlines()):
+            if i == line_number:
+                s = line
+    return s
+
+class _GnuplotDeletingFile:
+    def __init__(self, filename):
+        self.name = filename
 
     def __del__(self):
         os.remove(self.name)
 
-class _GnuplotDataTemp:
-    def __init__(self, *args):
-        self.name = '.tmp_gnuplot_data.dat'
+class _GnuplotScriptTemp(_GnuplotDeletingFile):
+    def __init__(self, gnuplot_cmds):
+        _GnuplotDeletingFile.__init__(self, '.tmp_gnuplot.gpi')
+        with open(self.name, 'w') as fs:
+            fs.write(gnuplot_cmds)
 
+class _GnuplotDataTemp(_GnuplotDeletingFile):
+    def __init__(self, *args):
+        _GnuplotDeletingFile.__init__(self, '.tmp_gnuplot_data.dat')
         data = np.array(args).T
         with open(self.name, 'wb') as fs:
             np.savetxt(fs, data, delimiter=',')
 
-    def __del__(self):
-        os.remove(self.name)
-
-class _GnuplotDataZMatrixTemp:
+class _GnuplotDataZMatrixTemp(_GnuplotDeletingFile):
     def __init__(self, z_matrix):
-        self.name = '.tmp_gnuplot_data_z_matrix.dat'
-
+        _GnuplotDeletingFile.__init__(self, '.tmp_gnuplot_data_z_matrix.dat')
         with open(self.name, 'wb') as fs:
             np.savetxt(fs, z_matrix, delimiter=',')
 
-    def __del__(self):
-        os.remove(self.name)
+def gnuplot(script_name, args_dict={}, data=[], trim_image=True):
+    assert script_name is not '.settings'
+    tmp_script_name = '.' + script_name
+    tmp_settings = '.settings'
+    sh.copyfile(script_name, tmp_script_name)
 
-def gnuplot(script_name, args_dict={}, data=[]):
     gnuplot_command = 'gnuplot'
 
     if data:
@@ -57,8 +67,21 @@ def gnuplot(script_name, args_dict={}, data=[]):
         gnuplot_command  = gnuplot_command[:-1]
         gnuplot_command += '"'
 
-    gnuplot_command += ' ' + script_name
+    gnuplot_command += ' ' + tmp_script_name
+
+    with open(tmp_script_name, 'a') as fs:
+        fs.write('\nsave \'%s\'' % tmp_settings)
+
     os.system(gnuplot_command)
+
+    if trim_image:
+        output = _read_line(tmp_settings, 13)
+        output = output[14:-2]
+        trim_image
+        trim_pad_image(output)
+
+    os.remove(tmp_script_name)
+    os.remove(tmp_settings)
 
     return gnuplot_command
 
@@ -158,3 +181,7 @@ def gnuplot_3d_matrix(z_matrix, filename, title='', x_label='', y_label='', z_la
         'z_label': z_label
     }
     gnuplot(scr.name, args_dict)
+
+def trim_pad_image(filename, padding=20):
+    os.system('convert %s -trim -bordercolor white -border %i %s' % \
+              (filename, padding, filename))
