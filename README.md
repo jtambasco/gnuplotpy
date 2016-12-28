@@ -22,7 +22,7 @@ If installing using the [Arch Linux AUR package](https://aur.archlinux.org/packa
 ## Examples
 ### Passing Python variables to a Gnuplot script:
 
-Gnuplot script:
+#### Gnuplot script:
 
 	set datafile separator ','
 	set term pngcairo size 20cm,20cm
@@ -40,7 +40,7 @@ Gnuplot script:
 
 	set out
 
-Python Script:
+#### Python script:
 
 	import numpy as np
 	import gnuplotpy as gp
@@ -58,7 +58,28 @@ Python Script:
 	data = [x, y]
 	gp.gnuplot('test.gpi', args, data)
 	
-![Example 1](./examples/example1.png) 
+<img src="./examples/example1.png " width="400">
+
+### Plotting simple 2D and 3D plots:
+
+#### Python script
+
+	import numpy as np
+	import gnuplotpy as gp
+
+	x = np.linspace(-5, 5, 100)
+	y = x**2
+	gp.gnuplot_2d(x, y, 'example2a.png', 'Example 2a', 'x', 'x^2')
+
+	z = np.linspace(0., 2.*np.pi, 10000)
+	z = z.reshape(100, 100)
+	z = np.round(np.sin(z), 1)
+	gp.gnuplot_3d_matrix(z, 'example2b.png', 'Example 2b', 'x', 'y')
+	
+### Output
+
+<img src="./examples/example2a.png " width="400">
+<img src="./examples/example2b.png " width="400">
 
 ## Contributions
 If you add functionality, I'd be interested and would appreciate if you send me a pull request.
