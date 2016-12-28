@@ -8,6 +8,17 @@ Works under Python 2 and Python 3.
 * setuptools: `cd gnuplotpy && python setup.py install`
 * Arch Linux: `yaourt -S python-gnuplotpy`
 
+### Dependencies
+If installing using the [Arch Linux AUR package](https://aur.archlinux.org/packages/python-modesolverpy/), dependencies will be automatically downloaded and installed, if not, one should ensure the following dependencies are installed:
+
+#### Python
+
+* [setuptools](https://pypi.python.org/pypi/setuptools).
+
+#### Other
+
+* [Gnuplot](http://www.gnuplot.info/).
+
 ## Examples
 ### Passing Python variables to a Gnuplot script:
 
@@ -50,5 +61,4 @@ Python Script:
 ![Example 1](./examples/example1.png) 
 
 ## Contributions
-If you add functionality, I'd be interested and would
-appreciate if you send me a pull request.
+If you add functionality, I'd be interested and would appreciate if you send me a pull request.
