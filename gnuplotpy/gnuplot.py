@@ -34,10 +34,12 @@ class _GnuplotDataZMatrixTemp(_GnuplotDeletingFile):
     def __init__(self, z_matrix):
         _GnuplotDeletingFile.__init__(self, '.tmp_gnuplot_data_z_matrix.dat')
         with open(self.name, 'wb') as fs:
-            np.savetxt(fs, z_matrix, delimiter=',')
+            np.savetxt(fs, z_matrix, '%.3f', delimiter=',')
 
 def gnuplot(script_name, args_dict={}, data=[], trim_image=True):
     script_dir, script_filename = os.path.split(script_name)
+    if not script_dir:
+        script_dir = '.'
     tmp_script_name = script_dir + '/.' + script_filename
     tmp_settings = script_dir + '/.settings'
     sh.copyfile(script_name, tmp_script_name)
@@ -86,6 +88,10 @@ def gnuplot(script_name, args_dict={}, data=[], trim_image=True):
     return gnuplot_command
 
 def gnuplot_2d(x, y, filename, title='', x_label='', y_label=''):
+    _, ext = os.path.splitext(filename)
+    if ext != '.png':
+        filename += '.png'
+
     gnuplot_cmds = \
     '''
     set datafile separator ","
@@ -101,8 +107,6 @@ def gnuplot_2d(x, y, filename, title='', x_label='', y_label=''):
     set ylabel y_label
 
     plot filename_data u 1:2 w lp pt 6 ps 0.5
-
-    set out
     '''
     scr = _GnuplotScriptTemp(gnuplot_cmds)
     data = _GnuplotDataTemp(x, y)
@@ -117,6 +121,10 @@ def gnuplot_2d(x, y, filename, title='', x_label='', y_label=''):
     gnuplot(scr.name, args_dict)
 
 def gnuplot_3d(x, y, z, filename, title='', x_label='', y_label='', z_label=''):
+    _, ext = os.path.splitext(filename)
+    if ext != '.png':
+        filename += '.png'
+
     gnuplot_cmds = \
     '''
     set datafile separator ","
@@ -133,8 +141,6 @@ def gnuplot_3d(x, y, z, filename, title='', x_label='', y_label='', z_label=''):
     set zlabel z_label
 
     splot filename_data u 1:2:3 w pm3d
-
-    set out
     '''
     scr = _GnuplotScriptTemp(gnuplot_cmds)
     data = _GnuplotDataTemp(x, y, z)
@@ -149,7 +155,11 @@ def gnuplot_3d(x, y, z, filename, title='', x_label='', y_label='', z_label=''):
     }
     gnuplot(scr.name, args_dict)
 
-def gnuplot_3d_matrix(z_matrix, filename, title='', x_label='', y_label='', z_label=''):
+def gnuplot_3d_matrix(z_matrix, filename, title='', x_label='', y_label=''):
+    _, ext = os.path.splitext(filename)
+    if ext != '.png':
+        filename += '.png'
+
     gnuplot_cmds = \
     '''
     set datafile separator ","
@@ -163,11 +173,8 @@ def gnuplot_3d_matrix(z_matrix, filename, title='', x_label='', y_label='', z_la
     set title title
     set xlabel x_label
     set ylabel y_label
-    set zlabel z_label
 
     splot filename_data matrix w pm3d
-
-    set out
     '''
     scr = _GnuplotScriptTemp(gnuplot_cmds)
     data = _GnuplotDataZMatrixTemp(z_matrix)
@@ -177,8 +184,7 @@ def gnuplot_3d_matrix(z_matrix, filename, title='', x_label='', y_label='', z_la
         'filename_data': data.name,
         'title': title,
         'x_label': x_label,
-        'y_label': y_label,
-        'z_label': z_label
+        'y_label': y_label
     }
     gnuplot(scr.name, args_dict)
 
