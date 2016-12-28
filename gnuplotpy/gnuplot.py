@@ -36,7 +36,7 @@ class _GnuplotDataZMatrixTemp(_GnuplotDeletingFile):
         with open(self.name, 'wb') as fs:
             np.savetxt(fs, z_matrix, '%.3f', delimiter=',')
 
-def gnuplot(script_name, args_dict={}, data=[], trim_image=True):
+def gnuplot(script_name, args_dict={}, data=[]):
     script_dir, script_filename = os.path.split(script_name)
     if not script_dir:
         script_dir = '.'
@@ -63,6 +63,8 @@ def gnuplot(script_name, args_dict={}, data=[], trim_image=True):
                     gnuplot_command += '1'
                 else:
                     gnuplot_command += '0'
+            elif hasattr(arg[1], '__iter__'):
+                gnuplot_command += '\'' + ' '.join([str(v) for v in arg[1]]) + '\''
             else:
                 gnuplot_command += str(arg[1])
             gnuplot_command += '; '
@@ -71,17 +73,7 @@ def gnuplot(script_name, args_dict={}, data=[], trim_image=True):
 
     gnuplot_command += ' ' + tmp_script_name
 
-    with open(tmp_script_name, 'a') as fs:
-        fs.write('\nsave \'%s\'' % tmp_settings)
-
     os.system(gnuplot_command)
-
-    if trim_image:
-        output = _read_line(tmp_settings, 13)
-        output = output[14:-2]
-        trim_image
-        trim_pad_image(output)
-
     os.remove(tmp_script_name)
     os.remove(tmp_settings)
 
