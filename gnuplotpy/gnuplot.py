@@ -37,9 +37,9 @@ class _GnuplotDataZMatrixTemp(_GnuplotDeletingFile):
             np.savetxt(fs, z_matrix, delimiter=',')
 
 def gnuplot(script_name, args_dict={}, data=[], trim_image=True):
-    assert script_name is not '.settings'
-    tmp_script_name = '.' + script_name
-    tmp_settings = '.settings'
+    script_dir, script_filename = os.path.split(script_name)
+    tmp_script_name = script_dir + '/.' + script_filename
+    tmp_settings = script_dir + '/.settings'
     sh.copyfile(script_name, tmp_script_name)
 
     gnuplot_command = 'gnuplot'
