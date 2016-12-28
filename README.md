@@ -9,7 +9,7 @@ Works under Python 2 and Python 3.
 * Arch Linux: `yaourt -S python-gnuplotpy`
 
 ### Dependencies
-If installing using the [Arch Linux AUR package](https://aur.archlinux.org/packages/python-modesolverpy/), dependencies will be automatically downloaded and installed, if not, one should ensure the following dependencies are installed:
+If installing using the [Arch Linux AUR package](https://aur.archlinux.org/packages/python-gnuplotpy/), dependencies will be automatically downloaded and installed, if not, one should ensure the following dependencies are installed:
 
 #### Python
 
