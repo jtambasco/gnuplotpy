@@ -37,6 +37,25 @@ class _GnuplotDataZMatrixTemp(_GnuplotDeletingFile):
             np.savetxt(fs, z_matrix, '%.3f', delimiter=',')
 
 def gnuplot(script_name, args_dict={}, data=[]):
+    '''
+    Call a Gnuplot script, passing it arguments and
+    datasets.
+
+    Args:
+        scipt_name(str): The name of the Gnuplot script.
+        args_dict(dict): A dictionary of parameters to pass
+            to the script.  The `key` is the name of the variable
+            that the `item` will be passed to the Gnuplot script
+            with.
+        data(list): A list of lists containing lists to be plotted.
+            The lists can be accessed by plotting the variable
+            `data` in the Gnuplot script.  The first list in the
+            list of lists corresponds to the first column in data,
+            and so on.
+    Returns:
+        str: The Gnuplot command used to call the script.
+    '''
+
     script_dir, script_filename = os.path.split(script_name)
     if not script_dir:
         script_dir = '.'
@@ -181,5 +200,15 @@ def gnuplot_3d_matrix(z_matrix, filename, title='', x_label='', y_label=''):
     gnuplot(scr.name, args_dict)
 
 def trim_pad_image(filename, padding=20):
+    '''
+    Trims and pads an image.
+
+    Args:
+        filename(str): The filename of the image to be
+            acted on.
+        padding(int): The number of pixels in padding to
+            add to the image after the image has been
+            trimmed.
+    '''
     os.system('convert %s -trim -bordercolor white -border %i %s' % \
               (filename, padding, filename))
