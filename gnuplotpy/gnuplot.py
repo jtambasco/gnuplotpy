@@ -56,13 +56,6 @@ def gnuplot(script_name, args_dict={}, data=[]):
         str: The Gnuplot command used to call the script.
     '''
 
-    script_dir, script_filename = os.path.split(script_name)
-    if not script_dir:
-        script_dir = '.'
-    tmp_script_name = script_dir + '/.' + script_filename
-    tmp_settings = script_dir + '/.settings'
-    sh.copyfile(script_name, tmp_script_name)
-
     gnuplot_command = 'gnuplot'
 
     if data:
@@ -90,11 +83,9 @@ def gnuplot(script_name, args_dict={}, data=[]):
         gnuplot_command  = gnuplot_command[:-1]
         gnuplot_command += '"'
 
-    gnuplot_command += ' ' + tmp_script_name
+    gnuplot_command += ' ' + script_name
 
     os.system(gnuplot_command)
-    os.remove(tmp_script_name)
-    os.remove(tmp_settings)
 
     return gnuplot_command
 
