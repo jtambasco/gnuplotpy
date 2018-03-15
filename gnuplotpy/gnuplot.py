@@ -36,7 +36,7 @@ class _GnuplotDataZMatrixTemp(_GnuplotDeletingFile):
         with open(self.name, 'wb') as fs:
             np.savetxt(fs, z_matrix, '%.3f', delimiter=',')
 
-def gnuplot(script_name, args_dict={}, data=[]):
+def gnuplot(script_name, args_dict={}, data=[], silent=True):
     '''
     Call a Gnuplot script, passing it arguments and
     datasets.
@@ -84,6 +84,9 @@ def gnuplot(script_name, args_dict={}, data=[]):
         gnuplot_command += '"'
 
     gnuplot_command += ' ' + script_name
+
+    if silent:
+        gnuplot_command += ' > /dev/null 2>&1'
 
     os.system(gnuplot_command)
 
