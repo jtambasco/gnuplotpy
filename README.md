@@ -4,7 +4,7 @@ Basic Python interface to Gnuplot.
 Works under Python 2 and Python 3.
 
 ##  Installation
-* pip: `pip3 install git+https://github.com/jtambasco/gnuplotpy.git` # or `pip2`
+* pip: `pip3 install gnuplotpy` # or `pip2`
 * Arch Linux: `yaourt -S python-gnuplotpy`
 
 ### Dependencies
