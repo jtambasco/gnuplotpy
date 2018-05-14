@@ -52,6 +52,9 @@ def gnuplot(script_name, args_dict={}, data=[], silent=True):
             `data` in the Gnuplot script.  The first list in the
             list of lists corresponds to the first column in data,
             and so on.
+        silent (bool): `True` if Gnuplot stdout should be silenced,
+            `False` if not.
+
     Returns:
         str: The Gnuplot command used to call the script.
     '''
@@ -93,6 +96,17 @@ def gnuplot(script_name, args_dict={}, data=[], silent=True):
     return gnuplot_command
 
 def gnuplot_2d(x, y, filename, title='', x_label='', y_label=''):
+    '''
+    Function to produce a general 2D plot.
+
+    Args:
+        x (list): x points.
+        y (list): y points.
+        filename (str): Filename of the output image.
+        title (str): Title of the plot.  Default is '' (no title).
+        x_label (str): x-axis label.
+        y_label (str): y-axis label.
+    '''
     _, ext = os.path.splitext(filename)
     if ext != '.png':
         filename += '.png'
@@ -126,6 +140,19 @@ def gnuplot_2d(x, y, filename, title='', x_label='', y_label=''):
     gnuplot(scr.name, args_dict)
 
 def gnuplot_3d(x, y, z, filename, title='', x_label='', y_label='', z_label=''):
+    '''
+    Function to produce a general 3D plot.
+
+    Args:
+        x (list): x points.
+        y (list): y points.
+        z (list): z points.
+        filename (str): Filename of the output image.
+        title (str): Title of the plot.  Default is '' (no title).
+        x_label (str): x-axis label.
+        y_label (str): y-axis label.
+        z_label (str): z-axis label.
+    '''
     _, ext = os.path.splitext(filename)
     if ext != '.png':
         filename += '.png'
@@ -161,6 +188,16 @@ def gnuplot_3d(x, y, z, filename, title='', x_label='', y_label='', z_label=''):
     gnuplot(scr.name, args_dict)
 
 def gnuplot_3d_matrix(z_matrix, filename, title='', x_label='', y_label=''):
+    '''
+    Function to produce a general 3D plot from a 2D matrix.
+
+    Args:
+        z_matrix (list): 2D matrix.
+        filename (str): Filename of the output image.
+        title (str): Title of the plot.  Default is '' (no title).
+        x_label (str): x-axis label.
+        y_label (str): y-axis label.
+    '''
     _, ext = os.path.splitext(filename)
     if ext != '.png':
         filename += '.png'

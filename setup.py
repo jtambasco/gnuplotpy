@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='gnuplotpy',
-      version='0.1',
+      version='0.3',
       description='Basic Python interface to Gnuplot.',
       url='https://github.com/jtambasco/gnuplotpy.git',
       author='Jean-Luc Tambasco',
