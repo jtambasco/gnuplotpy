@@ -1,8 +1,7 @@
 API
 ===
 
-.. automodule:: gnuplotpy.gnuplot
-   :members:
-   :undoc-members:
-   :inherited-members:
-   :show-inheritance:
+.. automodapi:: gnuplotpy.gnuplot
+
+    :inherited-members:
+    :no-heading:
