@@ -1,6 +1,8 @@
 # gnuplotpy
 Basic Python interface to Gnuplot.
 
+Documentation can be found [here](http://gnuplotpy.readthedocs.io/).
+
 Works under Python 2 and Python 3.
 
 ##  Installation
